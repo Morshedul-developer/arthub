@@ -1,0 +1,29 @@
+{
+  "name": "arthub-client",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroui/react": "^3.2.1",
+    "better-auth": "^1.3.34",
+    "framer-motion": "^12.42.1",
+    "jose-cjs": "^6.2.3",
+    "lucide-react": "^0.546.0",
+    "next": "^15.3.5",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-is": "^19.2.7",
+    "recharts": "^3.9.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17"
+  }
+}
