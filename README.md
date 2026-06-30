@@ -62,6 +62,19 @@ NEXT_PUBLIC_IMGBB_API_KEY=add_later
 | `/dashboard/artist/*` | Artist dashboard |
 | `/dashboard/admin/*` | Admin dashboard |
 
+## Test Payments (Stripe Sandbox)
+
+To demo a purchase, use Stripe's test card at checkout:
+
+| Field | Value |
+|---|---|
+| Card number | `4242 4242 4242 4242` |
+| Expiry | Any future date (e.g. `12/34`) |
+| CVC | Any 3 digits (e.g. `123`) |
+| Email | Any email address |
+
+No real charge is made. The purchase will be recorded and the artwork marked as sold.
+
 ## Pending Before Deployment
 
 - Add production API URL.
