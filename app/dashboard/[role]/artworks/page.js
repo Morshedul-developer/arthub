@@ -50,6 +50,7 @@ export default function AdminArtworksPage({ params }) {
                 <td>
                   <button onClick={() => deleteArtwork(artwork._id, artwork.title)}
                     className="rounded border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700 hover:bg-rose-100 transition"
+                  >
                     Delete
                   </button>
                 </td>
