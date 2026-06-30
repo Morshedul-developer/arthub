@@ -57,6 +57,7 @@ export default function UsersPage({ params }) {
                       <button key={r} disabled={changingId === user._id}
                         onClick={() => changeRole(user._id, r)}
                         className="rounded border border-stone-200 bg-white px-2.5 py-1 text-xs font-bold text-stone-600 transition hover:border-stone-400 hover:text-stone-900 disabled:opacity-50 capitalize"
+                      >
                         {r}
                       </button>
                     ))}
