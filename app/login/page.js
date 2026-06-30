@@ -52,7 +52,7 @@ export default function LoginPage() {
         <button
           className="btn btn-light mt-3 w-full"
           style={styles.secondaryButton}
-          onClick={() => authClient.signIn.social({ provider: "google", callbackURL: "/auth/callback" })}
+          onClick={() => authClient.signIn.social({ provider: "google", callbackURL: `${window.location.origin}/auth/callback` })}
         >
           Continue with Google
         </button>
