@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "../../lib/api";
 import { authClient } from "../../lib/auth-client";
+import { setSessionHint } from "../../lib/session-hint";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -50,6 +51,7 @@ export default function RegisterPage() {
 
     // Issue JWT cookie immediately after registration
     await api("/auth/token", { method: "POST" }).catch(() => {});
+    setSessionHint();
 
     setLoading(false);
     // Hard navigation so the page fully reloads with the JWT cookie already set.

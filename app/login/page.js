@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "../../lib/api";
 import { authClient } from "../../lib/auth-client";
+import { setSessionHint } from "../../lib/session-hint";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,12 +31,13 @@ export default function LoginPage() {
     // Exchange Better Auth session for JWT and get role for redirect
     const tokenResult = await api("/auth/token", { method: "POST" }).catch(() => null);
     const role = tokenResult?.role;
+    setSessionHint();
 
     setLoading(false);
     router.refresh();
-    if (role === "artist") router.push("/dashboard/artist");
-    else if (role === "admin") router.push("/dashboard/admin");
-    else router.push("/");
+    const target = role === "artist" ? "/dashboard/artist" : role === "admin" ? "/dashboard/admin" : "/";
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    router.push(redirect && redirect.startsWith(target) ? redirect : target);
   }
 
   return (

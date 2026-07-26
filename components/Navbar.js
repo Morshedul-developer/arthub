@@ -14,6 +14,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { api } from "../lib/api";
 import { authClient } from "../lib/auth-client";
+import { clearSessionHint } from "../lib/session-hint";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -97,6 +98,7 @@ export default function Navbar() {
     // Clear JWT cookie on server, then clear Better Auth session
     await api("/auth/logout", { method: "POST" }).catch(() => {});
     await authClient.signOut();
+    clearSessionHint();
     router.push("/login");
     router.refresh();
   }

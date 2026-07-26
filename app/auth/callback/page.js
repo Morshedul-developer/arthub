@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Palette } from "lucide-react";
 import { api } from "../../../lib/api";
+import { setSessionHint } from "../../../lib/session-hint";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function AuthCallbackPage() {
         // Issue JWT cookie and get role from Better Auth session
         const result = await api("/auth/token", { method: "POST" });
         const role = result?.role;
+        setSessionHint();
 
         setStatus("Redirecting…");
 
@@ -27,6 +29,7 @@ export default function AuthCallbackPage() {
           try {
             const result = await api("/auth/token", { method: "POST" });
             const role = result?.role;
+            setSessionHint();
             if (role === "artist") router.replace("/dashboard/artist");
             else if (role === "admin") router.replace("/dashboard/admin");
             else router.replace("/");
