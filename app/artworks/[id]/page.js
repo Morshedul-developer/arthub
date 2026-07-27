@@ -197,17 +197,21 @@ export default function ArtworkDetailsPage() {
       <div className="mt-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
         <form onSubmit={submitComment} className="card p-5">
           <h2 className="text-xl font-black">Leave a comment</h2>
-          <p className="mt-2 text-sm text-stone-500">{commentPermission.reason}</p>
+          <p className="mt-2 text-sm text-stone-500">
+            {session?.user && !commentPermission.canComment
+              ? "Purchase this artwork to leave a comment."
+              : commentPermission.reason}
+          </p>
           <textarea
             className="field mt-4 min-h-28"
             value={comment}
             onChange={(event) => setComment(event.target.value)}
             placeholder={session?.user ? "Write your comment" : "Login first to write a comment"}
-            disabled={!session?.user}
+            disabled={!session?.user || !commentPermission.canComment}
           />
           <button
             className="btn btn-dark mt-3 w-full disabled:opacity-50"
-            disabled={!session?.user || !comment.trim()}
+            disabled={!session?.user || !commentPermission.canComment || !comment.trim()}
           >
             Post Comment
           </button>
