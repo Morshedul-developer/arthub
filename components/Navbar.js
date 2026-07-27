@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   ChevronDown,
   LayoutDashboard,
@@ -51,7 +51,6 @@ const roleColors = { user: "#0891b2", artist: "#7c3aed", admin: "#b45309" };
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dashboardOpen, setDashboardOpen] = useState(false);
   const [mobileDashOpen, setMobileDashOpen] = useState(false);
@@ -99,8 +98,11 @@ export default function Navbar() {
     await api("/auth/logout", { method: "POST" }).catch(() => {});
     await authClient.signOut();
     clearSessionHint();
-    router.push("/login");
-    router.refresh();
+    // Hard navigation: soft navigation (router.push) races AuthGuard's own
+    // session-driven redirect and middleware re-gating /dashboard/*, since
+    // better-auth defers the session store update ~10ms after signOut()
+    // resolves (see node_modules/better-auth/dist/client/proxy.mjs).
+    window.location.href = "/login";
   }
 
   const isDashActive = pathname.startsWith("/dashboard");
