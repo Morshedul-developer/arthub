@@ -96,7 +96,8 @@ export default function Navbar() {
   async function logout() {
     // Clear JWT cookie on server, then clear Better Auth session
     await api("/auth/logout", { method: "POST" }).catch(() => {});
-    await authClient.signOut();
+    const { error } = await authClient.signOut();
+    if (error) console.error("Sign-out failed:", error);
     clearSessionHint();
     // Hard navigation: soft navigation (router.push) races AuthGuard's own
     // session-driven redirect and middleware re-gating /dashboard/*, since
