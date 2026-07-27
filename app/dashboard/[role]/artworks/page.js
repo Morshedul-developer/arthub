@@ -2,6 +2,7 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { api, money } from "../../../../lib/api";
 import { useDashboard } from "../../useDashboard";
 
@@ -14,8 +15,13 @@ export default function AdminArtworksPage({ params }) {
 
   async function deleteArtwork(id, title) {
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    await api(`/artworks/${id}`, { method: "DELETE" });
-    setArtworks(list.filter((a) => a._id !== id));
+    try {
+      await api(`/artworks/${id}`, { method: "DELETE" });
+      setArtworks(list.filter((a) => a._id !== id));
+      toast.success("Artwork deleted.");
+    } catch (err) {
+      toast.error(err.message || "Failed to delete artwork.");
+    }
   }
 
   if (error) return <div className="card p-8 text-center text-stone-600">{error}</div>;

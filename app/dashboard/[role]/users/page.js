@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useState } from "react";
+import toast from "react-hot-toast";
 import { api } from "../../../../lib/api";
 import { useDashboard } from "../../useDashboard";
 
@@ -19,6 +20,9 @@ export default function UsersPage({ params }) {
     try {
       const updated = await api(`/dashboard/admin/users/${userId}/role`, { method: "PATCH", body: JSON.stringify({ role: newRole }) });
       setUsers(list.map((u) => u._id === userId ? { ...u, role: updated.role } : u));
+      toast.success(`Role updated to ${updated.role}.`);
+    } catch (err) {
+      toast.error(err.message || "Failed to update role.");
     } finally {
       setChangingId(null);
     }

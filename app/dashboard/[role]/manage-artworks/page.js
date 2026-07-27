@@ -2,6 +2,7 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { api, money } from "../../../../lib/api";
 import { useDashboard } from "../../useDashboard";
 import ImageUpload from "../../../../components/ImageUpload";
@@ -23,16 +24,26 @@ export default function ManageArtworksPage({ params }) {
 
   async function saveEdit(e, id) {
     e.preventDefault();
-    const updated = await api(`/artworks/${id}`, { method: "PATCH", body: JSON.stringify(editForm) });
-    setArtworks(list.map((a) => a._id === id ? { ...a, ...updated } : a));
-    setEditingId(null);
+    try {
+      const updated = await api(`/artworks/${id}`, { method: "PATCH", body: JSON.stringify(editForm) });
+      setArtworks(list.map((a) => a._id === id ? { ...a, ...updated } : a));
+      setEditingId(null);
+      toast.success("Artwork updated.");
+    } catch (err) {
+      toast.error(err.message || "Failed to update artwork.");
+    }
   }
 
   async function deleteArtwork(id, title) {
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    await api(`/artworks/${id}`, { method: "DELETE" });
-    setArtworks(list.filter((a) => a._id !== id));
-    if (editingId === id) setEditingId(null);
+    try {
+      await api(`/artworks/${id}`, { method: "DELETE" });
+      setArtworks(list.filter((a) => a._id !== id));
+      if (editingId === id) setEditingId(null);
+      toast.success("Artwork deleted.");
+    } catch (err) {
+      toast.error(err.message || "Failed to delete artwork.");
+    }
   }
 
   if (error) return <div className="card p-8 text-center text-stone-600">{error}</div>;
